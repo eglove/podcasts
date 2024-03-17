@@ -1,28 +1,46 @@
-import { getCookieValue } from '@ethang/toolbelt/http/cookie';
+import { getCookieValue, setCookieValue } from '@ethang/toolbelt/http/cookie';
 import { getAcceptLanguage } from '@ethang/toolbelt/http/headers';
 import { isNil } from '@ethang/toolbelt/is/nil';
+import { DateTime } from 'luxon';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
+  const response = NextResponse.next();
+
+  const langCookieConfig = {
+    Expires: DateTime.now().plus({ year: 1 }).toJSDate(),
+    HttpOnly: true,
+    SameSite: 'Strict',
+    Secure: true,
+  } satisfies Parameters<typeof setCookieValue>[0]['config'];
+
   const url = new URL(request.url);
-  const searchParameterLang = url.searchParams.get('lang');
-
-  if (!isNil(searchParameterLang)) {
-    //
-  }
-
+  const langSearchParameter = url.searchParams.get('lang');
   const langCookie = getCookieValue('lang', request.headers);
 
-  const acceptLanguageHeader = request.headers.get('accept-language') ?? 'en';
-  const acceptLanguage = getAcceptLanguage(acceptLanguageHeader);
+  if (!isNil(langSearchParameter)) {
+    setCookieValue({
+      config: langCookieConfig,
+      cookieName: 'lang',
+      cookieValue: langSearchParameter,
+      response,
+    });
+  } else if (!langCookie.isSuccess) {
+    const acceptLanguageHeader = request.headers.get('accept-language') ?? 'en';
+    const [acceptLanguage] = getAcceptLanguage(acceptLanguageHeader);
 
-  if (!isNil(acceptLanguage[0])) {
-    //
+    if (!isNil(acceptLanguage)) {
+      setCookieValue({
+        config: langCookieConfig,
+        cookieName: 'lang',
+        cookieValue: acceptLanguage.language ?? 'en',
+        response,
+      });
+    }
   }
-  console.log(acceptLanguage);
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

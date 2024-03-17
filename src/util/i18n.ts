@@ -1,9 +1,28 @@
+import { getCookieValue } from '@ethang/toolbelt/http/cookie';
+import { isNil } from '@ethang/toolbelt/is/nil';
 import { init } from 'i18next';
+import type { GetServerSidePropsContext } from 'next';
 
-export const i18next = init({
-  fallbackLng: 'en',
-  resources: {
-    en: { translation: { hello: 'Hello!' } },
-    es: { translation: { hello: 'Hola!' } },
-  },
-});
+export const i18next = async (language = 'en') => {
+  return init({
+    fallbackLng: 'en',
+    lng: language,
+    resources: {
+      en: { translation: { hello: 'Hello!' } },
+      es: { translation: { hello: 'Hola!' } },
+    },
+  });
+};
+
+export async function getT(request: GetServerSidePropsContext['req']) {
+  let lang = 'en';
+  if (!isNil(request.headers.cookie)) {
+    const result = getCookieValue('lang', request.headers.cookie);
+
+    if (result.isSuccess) {
+      lang = result.data;
+    }
+  }
+
+  return i18next(lang);
+}

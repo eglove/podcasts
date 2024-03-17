@@ -1,10 +1,13 @@
-import type { InferGetServerSidePropsType } from 'next';
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next';
 
 import { MainLayout } from '../layouts/main-layout';
-import { i18next } from '../util/i18n';
+import { getT } from '../util/i18n';
 
-export async function getServerSideProps() {
-  const t = await i18next;
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  const t = await getT(req);
 
   return {
     props: {
