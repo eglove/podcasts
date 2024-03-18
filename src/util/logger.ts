@@ -6,9 +6,9 @@ export const logger = createLogger({
     new transports.Console(),
     new transports.Http({
       batch: true,
-      host: 'localhost',
+      host: process.env.PUBLIC_HOST,
       path: 'api/log',
-      port: 3000,
+      port: Number(process.env.PUBLIC_PORT),
     }),
   ],
 });
