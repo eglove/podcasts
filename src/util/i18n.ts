@@ -8,7 +8,16 @@ export const i18next = async (language = 'en') => {
     fallbackLng: 'en',
     lng: language,
     resources: {
-      en: { translation: { hello: 'Hello!' } },
+      en: {
+        translation: {
+          addPodcast: 'Add Podcast',
+          feedUrl: 'Feed URL',
+          hello: 'Hello!',
+          isSerial: 'Is Serial',
+          submit: 'Submit',
+          title: 'Title',
+        },
+      },
       es: { translation: { hello: 'Hola!' } },
     },
   });
