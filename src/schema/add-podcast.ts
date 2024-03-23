@@ -5,3 +5,10 @@ export const addPodcastSchema = z.object({
   isSerial: z.boolean(),
   title: z.string().min(1, 'This field is required'),
 });
+
+export const addPodcastResponseSchema = z.object({
+  feedUrl: z.string(),
+  id: z.string(),
+  isSerial: z.boolean(),
+  title: z.string(),
+});

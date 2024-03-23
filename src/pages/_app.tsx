@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {/* eslint-disable-next-line @typescript-eslint/unbound-method */}
       <NextUIProvider navigate={router.push}>
         <main className={inter.className}>
+          {/* eslint-disable-next-line react/jsx-max-depth */}
           <Component {...pageProps} />
         </main>
       </NextUIProvider>

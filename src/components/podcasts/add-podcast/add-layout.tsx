@@ -1,18 +1,21 @@
 import type { FieldErrors } from '@ethang/hooks/use-form';
-import { Button, Checkbox, Input } from '@nextui-org/react';
+import { isNil } from '@ethang/toolbelt/is/nil';
+import { Checkbox, Input } from '@nextui-org/react';
 import type { FormEvent } from 'react';
 import type z from 'zod';
 
 import type { addPodcastSchema } from '../../../schema/add-podcast';
+import { PrimaryButton } from '../../common/primary-button';
 
 type AddPodcastLayoutProperties = {
   readonly fieldErrors: FieldErrors<z.output<typeof addPodcastSchema>>;
+  readonly formError?: string;
   readonly formState: z.output<typeof addPodcastSchema>;
-  readonly handleSetValue: (
-    name: keyof z.output<typeof addPodcastSchema>,
-  ) => (value: boolean | string) => void;
   readonly handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   readonly isPending: boolean;
+  readonly serValue: (
+    name: keyof z.output<typeof addPodcastSchema>,
+  ) => (value: boolean | string) => void;
   readonly text: {
     addPodcast: string;
     feedUrl: string;
@@ -25,8 +28,9 @@ type AddPodcastLayoutProperties = {
 
 export function AddPodcastLayout({
   fieldErrors,
+  formError,
   formState,
-  handleSetValue,
+  serValue,
   validate,
   text,
   isPending,
@@ -39,7 +43,7 @@ export function AddPodcastLayout({
         <Checkbox
           disabled={isPending}
           isSelected={formState.isSerial}
-          onValueChange={handleSetValue('isSerial')}
+          onValueChange={serValue('isSerial')}
         >
           {text.isSerial}
         </Checkbox>
@@ -54,19 +58,16 @@ export function AddPodcastLayout({
               value={formState[typedKey] as string}
               errorMessage={fieldErrors?.[typedKey]?.[0]}
               label={text[typedKey]}
-              onValueChange={handleSetValue(typedKey)}
+              onValueChange={serValue(typedKey)}
             />
           );
         })}
-        <Button
-          className="text-white"
-          color="primary"
-          isLoading={isPending}
-          type="submit"
-          onPress={validate}
-        >
+        {!isNil(formError) && (
+          <p className="text-sm text-danger">{formError}</p>
+        )}
+        <PrimaryButton isLoading={isPending} type="submit" onPress={validate}>
           {text.submit}
-        </Button>
+        </PrimaryButton>
       </form>
     </>
   );
