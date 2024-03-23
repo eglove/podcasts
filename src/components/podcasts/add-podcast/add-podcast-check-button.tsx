@@ -24,7 +24,7 @@ export function AddPodcastCheckButton({
         isSelected={formState.isSerial}
         onValueChange={setValue('isSerial')}
       >
-        {text.isSerial}
+        {text?.isSerial}
       </Checkbox>
       <PrimaryButton
         size="sm"
@@ -32,7 +32,7 @@ export function AddPodcastCheckButton({
         type="submit"
         onPress={validate}
       >
-        {text.addPodcast}
+        {text?.addPodcast}
       </PrimaryButton>
     </div>
   );

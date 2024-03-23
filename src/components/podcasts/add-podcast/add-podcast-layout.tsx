@@ -16,7 +16,7 @@ export type AddPodcastLayoutProperties = {
   readonly setValue: (
     name: keyof z.output<typeof addPodcastSchema>,
   ) => (value: boolean | string) => void;
-  readonly text: {
+  readonly text?: {
     addPodcast: string;
     feedUrl: string;
     isSerial: string;

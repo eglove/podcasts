@@ -1,7 +1,6 @@
-import { isNil } from '@ethang/toolbelt/is/nil';
 import { useQuery } from '@tanstack/react-query';
 
-import { tQueryOptions } from '../../../api/query-options/t-query-options';
+import { podcastsQueryOptions } from '../../../pages';
 import { AddPodcastLayout } from './add-podcast-layout';
 import { useAddPodcast } from './use-add-podcast';
 
@@ -16,13 +15,7 @@ export function AddPodcast() {
     isPending,
   } = useAddPodcast();
 
-  const { data: text } = useQuery(
-    tQueryOptions(['addPodcast', 'feedUrl', 'isSerial', 'title'] as const),
-  );
-
-  if (isNil(text)) {
-    return null;
-  }
+  const { data: text } = useQuery(podcastsQueryOptions.text);
 
   return (
     <AddPodcastLayout

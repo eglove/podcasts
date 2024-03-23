@@ -28,7 +28,7 @@ export function AddPodcastTextInputs({
             disabled={isPending}
             value={formState[typedKey] as string}
             errorMessage={fieldErrors?.[typedKey]?.[0]}
-            label={text[typedKey]}
+            label={text?.[typedKey]}
             onValueChange={setValue(typedKey)}
           />
         );

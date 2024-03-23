@@ -1,12 +1,16 @@
 import '../styles/globals.css';
 
 import { NextUIProvider } from '@nextui-org/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/navigation';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 60_000 } },
 });
 
@@ -15,10 +19,15 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* eslint-disable-next-line @typescript-eslint/unbound-method */}
-      <NextUIProvider navigate={router.push}>
-        <Component {...pageProps} />
-      </NextUIProvider>
+      <HydrationBoundary
+        queryClient={queryClient}
+        state={pageProps.dehydratedState}
+      >
+        {/* eslint-disable-next-line @typescript-eslint/unbound-method */}
+        <NextUIProvider navigate={router.push}>
+          <Component {...pageProps} />
+        </NextUIProvider>
+      </HydrationBoundary>
       <ReactQueryDevtools />
     </QueryClientProvider>
   );
