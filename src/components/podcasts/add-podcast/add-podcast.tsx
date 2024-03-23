@@ -1,17 +1,11 @@
+import { isNil } from '@ethang/toolbelt/is/nil';
+import { useQuery } from '@tanstack/react-query';
+
+import { tQueryOptions } from '../../../api/query-options/t-query-options';
 import { AddPodcastLayout } from './add-layout';
 import { useAddPodcast } from './use-add-podcast';
 
-type AddPodcastProperties = {
-  readonly text: {
-    addPodcast: string;
-    feedUrl: string;
-    isSerial: string;
-    submit: string;
-    title: string;
-  };
-};
-
-export function AddPodcast({ text }: AddPodcastProperties) {
+export function AddPodcast() {
   const {
     formError,
     validate,
@@ -21,6 +15,20 @@ export function AddPodcast({ text }: AddPodcastProperties) {
     formState,
     isPending,
   } = useAddPodcast();
+
+  const { data: text } = useQuery(
+    tQueryOptions([
+      'addPodcast',
+      'feedUrl',
+      'isSerial',
+      'submit',
+      'title',
+    ] as const),
+  );
+
+  if (isNil(text)) {
+    return null;
+  }
 
   return (
     <AddPodcastLayout

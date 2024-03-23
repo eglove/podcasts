@@ -23,15 +23,21 @@ export const i18next = async (language = 'en') => {
   });
 };
 
-export async function getT(request: GetServerSidePropsContext['req']) {
-  let lang = 'en';
-  if (!isNil(request.headers.cookie)) {
-    const result = getCookieValue('lang', request.headers.cookie);
+export async function getT(
+  request: GetServerSidePropsContext['req'] | Request,
+) {
+  const cookies =
+    request instanceof Request
+      ? request.headers.get('Cookie')
+      : request.headers.cookie;
+
+  if (!isNil(cookies)) {
+    const result = getCookieValue('lang', cookies);
 
     if (result.isSuccess) {
-      lang = result.data;
+      return i18next(result.data);
     }
   }
 
-  return i18next(lang);
+  return i18next('en');
 }

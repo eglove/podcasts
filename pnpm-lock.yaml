@@ -7,10 +7,10 @@ settings:
 dependencies:
   '@ethang/hooks':
     specifier: ^2.0.0
-    version: 2.0.0(@ethang/toolbelt@1.6.0)(react@18.2.0)(zod@3.22.4)
+    version: 2.0.0(@ethang/toolbelt@1.7.2)(react@18.2.0)(zod@3.22.4)
   '@ethang/toolbelt':
-    specifier: ^1.6.0
-    version: 1.6.0(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4)
+    specifier: ^1.7.2
+    version: 1.7.2(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4)
   '@faker-js/faker':
     specifier: ^8.4.1
     version: 8.4.1
@@ -197,20 +197,20 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@ethang/hooks@2.0.0(@ethang/toolbelt@1.6.0)(react@18.2.0)(zod@3.22.4):
+  /@ethang/hooks@2.0.0(@ethang/toolbelt@1.7.2)(react@18.2.0)(zod@3.22.4):
     resolution: {integrity: sha512-OaJUw2k2FmUPmbbmxG+9B/TQ5g8k8lBLpTzxgSEZ6rY9t6nKgBTRWwY/9iLaTJMkJaEEPyz03PikmSFgOWA7YA==}
     peerDependencies:
       '@ethang/toolbelt': ^1.6.0
       react: ^18.2.0
       zod: ^3.22.4
     dependencies:
-      '@ethang/toolbelt': 1.6.0(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4)
+      '@ethang/toolbelt': 1.7.2(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4)
       react: 18.2.0
       zod: 3.22.4
     dev: false
 
-  /@ethang/toolbelt@1.6.0(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4):
-    resolution: {integrity: sha512-H7uhAEBRDwhSSMP6blFTzEIsSFjVnxnoJGF6Pv5HrXB2eNeuQ6vIH+xaIKuHwFrurzlTL35Df9qT1oDyuWjA5A==}
+  /@ethang/toolbelt@1.7.2(@total-typescript/ts-reset@0.5.1)(convert@5.0.0)(idb@8.0.0)(zod@3.22.4):
+    resolution: {integrity: sha512-k2Vcb6Q45xVvPr4DvN0sCXxzkzLp6aozUe+Qihan+sS6PUO8RsqocfWgYiJi/2pGH2uDxRKbcfkYuZoL4elQqg==}
     peerDependencies:
       '@total-typescript/ts-reset': ^0.5.1
       convert: ^5.0.0
