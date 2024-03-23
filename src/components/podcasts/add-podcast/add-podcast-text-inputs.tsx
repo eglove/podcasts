@@ -1,3 +1,4 @@
+import { get } from '@ethang/toolbelt/object/get';
 import { Input } from '@nextui-org/react';
 
 import type { AddPodcastLayoutProperties } from './add-podcast-layout';
@@ -27,8 +28,8 @@ export function AddPodcastTextInputs({
             className="text-black"
             disabled={isPending}
             value={formState[typedKey] as string}
-            errorMessage={fieldErrors?.[typedKey]?.[0]}
-            label={text?.[typedKey]}
+            errorMessage={get<string>(fieldErrors, `${typedKey}[0]`)}
+            label={get<string>(text, typedKey)}
             onValueChange={setValue(typedKey)}
           />
         );

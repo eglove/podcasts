@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ethang/hooks": "^2.0.0",
-    "@ethang/toolbelt": "^1.7.2",
+    "@ethang/toolbelt": "^1.8.1",
     "@faker-js/faker": "^8.4.1",
     "@heroicons/react": "^2.1.3",
     "@nextui-org/react": "^2.2.10",

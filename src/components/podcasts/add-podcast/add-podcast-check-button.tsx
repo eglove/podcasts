@@ -1,3 +1,4 @@
+import { get } from '@ethang/toolbelt/object/get';
 import { Checkbox } from '@nextui-org/react';
 
 import { PrimaryButton } from '../../common/primary-button';
@@ -24,7 +25,7 @@ export function AddPodcastCheckButton({
         isSelected={formState.isSerial}
         onValueChange={setValue('isSerial')}
       >
-        {text?.isSerial}
+        {get(text, 'isSerial', 'Is Serial')}
       </Checkbox>
       <PrimaryButton
         size="sm"
@@ -32,7 +33,7 @@ export function AddPodcastCheckButton({
         type="submit"
         onPress={validate}
       >
-        {text?.addPodcast}
+        {get(text, 'addPodcast', 'Add Podcast')}
       </PrimaryButton>
     </div>
   );
