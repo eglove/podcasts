@@ -31,8 +31,9 @@ jobs:
   Merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: tretuna/sync-branches@1.4.0
+      - uses: everlytic/branch-merge@1.1.2
         with:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          FROM_BRANCH: "dev"
-          TO_BRANCH: "main"
+          github_token: ${{ github.token }}
+          source_ref: ${{ github.ref }}
+          target_branch: 'main'
+          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
