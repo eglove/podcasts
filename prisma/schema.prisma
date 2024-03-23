@@ -18,15 +18,16 @@ model Log {
 }
 
 model Podcast {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  feedUrl   String   @unique
-  title     String
-  isSerial  Boolean
+  id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  feedUrl          String   @unique
+  title            String
+  isSerial         Boolean
+  youtubeChannelId String?
 
-  subscribers    User[]
-  PodcastEpisode PodcastEpisode[]
+  subscribers     User[]
+  podcastEpisodes PodcastEpisode[]
 }
 
 model PodcastEpisode {
@@ -36,8 +37,9 @@ model PodcastEpisode {
   url       String   @unique
   title     String
 
-  podcastId String
-  podcast   Podcast @relation(fields: [podcastId], references: [id])
+  podcastId           String
+  podcast             Podcast              @relation(fields: [podcastId], references: [id])
+  userPodcastEpisodes UserPodcastEpisode[]
 }
 
 model User {
@@ -47,5 +49,18 @@ model User {
   email     String   @unique
   password  String
 
-  subscriptions Podcast[]
+  subscriptions       Podcast[]
+  userPodcastEpisodes UserPodcastEpisode[]
+}
+
+model UserPodcastEpisode {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  seen      Boolean  @default(false)
+
+  userId           String
+  user             User           @relation(fields: [userId], references: [id])
+  podcastEpisodeId String
+  podcastEpisode   PodcastEpisode @relation(fields: [podcastEpisodeId], references: [id])
 }
