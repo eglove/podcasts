@@ -8,10 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+      - uses: pnpm/action-setup@v3
         with:
-          node-version: '20'
+          version: 8
       - name: Install dependencies
         run: pnpm install
       - name: Run Snyk to check for vulnerabilities
