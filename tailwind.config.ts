@@ -17,8 +17,10 @@ const config: Config = {
     themes: {
       light: {
         colors: {
-          primary: '#ea580c',
+          background: '#334155',
+          primary: '#c2410c',
           foreground: '#ffffff',
+          danger: '#fda4af',
         }
       }
     }

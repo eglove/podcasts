@@ -1,4 +1,3 @@
-import { isNil } from '@ethang/toolbelt/is/nil';
 import { Checkbox } from '@nextui-org/react';
 
 import { PrimaryButton } from '../../common/primary-button';
@@ -6,12 +5,11 @@ import type { AddPodcastLayoutProperties } from './add-podcast-layout';
 
 type AddPodcastCheckButtonProperties = Pick<
   AddPodcastLayoutProperties,
-  'formError' | 'formState' | 'isPending' | 'setValue' | 'text' | 'validate'
+  'formState' | 'isPending' | 'setValue' | 'text' | 'validate'
 >;
 
 export function AddPodcastCheckButton({
   setValue,
-  formError,
   formState,
   validate,
   text,
@@ -28,7 +26,6 @@ export function AddPodcastCheckButton({
       >
         {text.isSerial}
       </Checkbox>
-      {!isNil(formError) && <p className="text-sm text-danger">{formError}</p>}
       <PrimaryButton
         size="sm"
         isLoading={isPending}

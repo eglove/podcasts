@@ -1,4 +1,5 @@
 import type { FieldErrors } from '@ethang/hooks/use-form';
+import { isNil } from '@ethang/toolbelt/is/nil';
 import type { FormEvent } from 'react';
 import type z from 'zod';
 
@@ -35,22 +36,26 @@ export function AddPodcastLayout({
   handleSubmit,
 }: AddPodcastLayoutProperties) {
   return (
-    <form className="grid gap-4" onSubmit={handleSubmit}>
-      <AddPodcastTextInputs
-        text={text}
-        setValue={setValue}
-        fieldErrors={fieldErrors}
-        formState={formState}
-        isPending={isPending}
-      />
-      <AddPodcastCheckButton
-        isPending={isPending}
-        formState={formState}
-        setValue={setValue}
-        formError={formError}
-        text={text}
-        validate={validate}
-      />
-    </form>
+    <>
+      <form className="grid gap-4" onSubmit={handleSubmit}>
+        <AddPodcastTextInputs
+          text={text}
+          setValue={setValue}
+          fieldErrors={fieldErrors}
+          formState={formState}
+          isPending={isPending}
+        />
+        <AddPodcastCheckButton
+          isPending={isPending}
+          formState={formState}
+          setValue={setValue}
+          text={text}
+          validate={validate}
+        />
+      </form>
+      {!isNil(formError) && (
+        <p className="py-1 text-end text-sm text-danger">{formError}</p>
+      )}
+    </>
   );
 }

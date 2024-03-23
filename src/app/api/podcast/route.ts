@@ -1,55 +1,49 @@
-import { HTTP_STATUS } from '@ethang/toolbelt/constants/http';
 import { parseFetchJson } from '@ethang/toolbelt/fetch/json';
 import { tryCatchAsync } from '@ethang/toolbelt/functional/try-catch';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 import { addPodcastSchema } from '../../../schema/add-podcast';
+import {
+  badRequestResponse,
+  internalServerErrorResponse,
+  okResponse,
+} from '../../../util/api-util';
 import prisma from '../../../util/prisma';
 import { PrismaErrorCodes } from '../../../util/prisma-util';
+import { TEST_USER } from '../../../util/testing';
 
 export async function POST(request: Request) {
   const bodyResults = await parseFetchJson(request, addPodcastSchema);
 
   if (!bodyResults.isSuccess) {
-    return Response.json(
-      { error: bodyResults.error },
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: HTTP_STATUS.BAD_REQUEST,
-      },
-    );
+    return badRequestResponse(bodyResults.error);
   }
 
-  const podcast = await tryCatchAsync(async () => {
-    return prisma.podcast.create({
-      data: bodyResults.data,
-      select: { feedUrl: true, id: true, isSerial: true, title: true },
+  const user = await tryCatchAsync(async () => {
+    return prisma.user.update({
+      data: {
+        subscriptions: {
+          connectOrCreate: {
+            create: bodyResults.data,
+            where: { feedUrl: bodyResults.data.feedUrl },
+          },
+        },
+      },
+      where: { email: TEST_USER.email },
     });
   });
 
-  if (!podcast.isSuccess) {
+  if (!user.isSuccess) {
     let errorMessage = 'Failed to create podcast';
     if (
-      podcast.error instanceof PrismaClientKnownRequestError &&
-      podcast.error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT
+      user.error instanceof PrismaClientKnownRequestError &&
+      user.error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT
     ) {
       errorMessage = 'Podcast already exists';
     }
 
-    return Response.json(
-      { error: errorMessage },
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-      },
-    );
+    return internalServerErrorResponse(errorMessage);
   }
 
-  return Response.json(
-    { data: bodyResults.data },
-    {
-      headers: { 'Content-Type': 'application/json' },
-      status: HTTP_STATUS.OK,
-    },
-  );
+  return okResponse(bodyResults.data);
 }

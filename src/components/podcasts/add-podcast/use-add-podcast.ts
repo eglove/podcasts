@@ -15,7 +15,7 @@ export function useAddPodcast() {
     mutationKey: ['addPodcast'],
     async onSuccess(response) {
       const message = await getResponseError(response);
-      setFormError(message ?? 'Failed to add podcast');
+      setFormError(message);
     },
   });
 
