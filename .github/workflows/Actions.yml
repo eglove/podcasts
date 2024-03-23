@@ -36,4 +36,3 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "dev"
           TO_BRANCH: "main"
-          PULL_REQUEST_AUTO_MERGE_METHOD: "squash"
