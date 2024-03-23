@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Log {
@@ -38,8 +38,6 @@ model PodcastEpisode {
 
   podcastId String
   podcast   Podcast @relation(fields: [podcastId], references: [id])
-
-  @@index([podcastId])
 }
 
 model User {
