@@ -2,7 +2,7 @@ name: Actions
 on:
   push:
     branches:
-      - dev
+      - main
 jobs:
   Snyk:
     runs-on: ubuntu-latest
