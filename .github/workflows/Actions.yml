@@ -31,9 +31,9 @@ jobs:
   Merge:
     runs-on: ubuntu-latest
     steps:
-      - uses: devmasx/merge-branch@master
+      - uses: tretuna/sync-branches@1.4.0
         with:
-          type: now
-          from_branch: dev
-          target_branch: main
-          github_token: ${{ secrets.MERGE_ACTION }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: "dev"
+          TO_BRANCH: "main"
+          PULL_REQUEST_AUTO_MERGE_METHOD: "squash"
