@@ -19,6 +19,7 @@ const config: Config = {
         colors: {
           background: '#334155',
           primary: '#c2410c',
+          secondary: '#0369a1',
           foreground: '#ffffff',
           danger: '#fda4af',
         }

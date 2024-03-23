@@ -36,6 +36,7 @@ model PodcastEpisode {
   updatedAt DateTime @updatedAt
   url       String   @unique
   title     String
+  published DateTime
 
   podcastId           String
   podcast             Podcast              @relation(fields: [podcastId], references: [id])
@@ -63,4 +64,6 @@ model UserPodcastEpisode {
   user             User           @relation(fields: [userId], references: [id])
   podcastEpisodeId String
   podcastEpisode   PodcastEpisode @relation(fields: [podcastEpisodeId], references: [id])
+
+  @@unique([userId, podcastEpisodeId])
 }

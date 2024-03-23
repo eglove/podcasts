@@ -3,21 +3,14 @@ import { isNil } from '@ethang/toolbelt/is/nil';
 import { init } from 'i18next';
 import type { GetServerSidePropsContext } from 'next';
 
+import { enI18n } from './i18n-languages/en';
+
 export const i18next = async (language = 'en') => {
   return init({
     fallbackLng: 'en',
     lng: language,
     resources: {
-      en: {
-        translation: {
-          addPodcast: 'Add Podcast',
-          feedUrl: 'RSS or YouTube URL',
-          hello: 'Hello!',
-          isSerial: 'Is Serial',
-          submit: 'Submit',
-          title: 'Title',
-        },
-      },
+      en: enI18n,
       es: { translation: { hello: 'Hola!' } },
     },
   });
