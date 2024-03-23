@@ -4,15 +4,21 @@ on:
     branches:
       - dev
 jobs:
-  snyk:
+  Snyk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: pnpm install
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  sonarcloud:
+  SonarCloud:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
