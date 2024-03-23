@@ -14,7 +14,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
     props: {
       text: {
         addPodcast: t('addPodcast'),
-        feedUrl: t('RSS or YouTube URL'),
+        feedUrl: t('feedUrl'),
         isSerial: t('isSerial'),
         submit: t('submit'),
         title: t('title'),
