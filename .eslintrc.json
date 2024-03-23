@@ -1,3 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "ethang"]
+  "extends": [
+    "next/core-web-vitals",
+    "ethang"
+  ]
 }

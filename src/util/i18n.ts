@@ -11,7 +11,7 @@ export const i18next = async (language = 'en') => {
       en: {
         translation: {
           addPodcast: 'Add Podcast',
-          feedUrl: 'Feed URL',
+          feedUrl: 'RSS or YouTube URL',
           hello: 'Hello!',
           isSerial: 'Is Serial',
           submit: 'Submit',
