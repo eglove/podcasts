@@ -38,7 +38,12 @@ export async function GET(request: Request) {
           url: true,
         },
       },
-      user: { select: { id: true } },
+      user: {
+        select: {
+          id: true,
+          subscriptions: { select: { id: true, youtubeChannelId: true } },
+        },
+      },
     },
     skip: isNil(page) || !isNumber(page) ? 0 : Number(page),
     take: PODCAST_PAGE_SIZE,
@@ -48,17 +53,15 @@ export async function GET(request: Request) {
     },
   });
 
-  if (!isNil(podcasts[0].user)) {
-    for (const item of podcasts) {
-      if (!isNil(item.podcastEpisode.podcast.youtubeChannelId)) {
-        populateYouTubePodcast(
-          item.podcastEpisode.podcast.youtubeChannelId,
-          item.podcastEpisode.podcast.id,
-          item.user.id,
-        ).catch((error: unknown) => {
-          logger.error(error);
-        });
-      }
+  for (const podcastId of podcasts[0].user.subscriptions) {
+    if (!isNil(podcastId.youtubeChannelId)) {
+      populateYouTubePodcast(
+        podcastId.youtubeChannelId,
+        podcastId.id,
+        podcasts[0].user.id,
+      ).catch((error: unknown) => {
+        logger.error(error);
+      });
     }
   }
 
