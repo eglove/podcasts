@@ -2,6 +2,8 @@ import { useForm } from '@ethang/hooks/use-form';
 import { useMutation } from '@tanstack/react-query';
 
 import { api } from '../../../api/api';
+import { podcastsQueryOptions } from '../../../pages';
+import { queryClient } from '../../../pages/_app';
 import { addPodcastSchema } from '../../../schema/add-podcast';
 import { getResponseError } from '../../../util/http';
 
@@ -14,6 +16,8 @@ export function useAddPodcast() {
     },
     mutationKey: ['addPodcast'],
     async onSuccess(response) {
+      await queryClient.invalidateQueries(podcastsQueryOptions.podcasts);
+
       const message = await getResponseError(response);
       setFormError(message);
     },

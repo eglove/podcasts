@@ -1,8 +1,8 @@
 import { parseFetchJson } from '@ethang/toolbelt/fetch/json';
 import { tryCatchAsync } from '@ethang/toolbelt/functional/try-catch';
 import { isNil } from '@ethang/toolbelt/is/nil';
+import { isNumber } from '@ethang/toolbelt/is/number';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { DateTime } from 'luxon';
 
 import { addPodcastSchema } from '../../../schema/add-podcast';
 import {
@@ -19,45 +19,42 @@ import {
   populateYouTubePodcast,
 } from '../../../util/youtube';
 
-export async function GET() {
-  const user = await prisma.user.findUnique({
+export const PODCAST_PAGE_SIZE = 10;
+
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = url.searchParams.get('page');
+
+  const podcasts = await prisma.userPodcastEpisode.findMany({
+    orderBy: { podcastEpisode: { published: 'desc' } },
     select: {
       id: true,
-      subscriptions: {
+      podcastEpisode: {
         select: {
           id: true,
-          podcastEpisodes: {
-            orderBy: { published: 'desc' },
-            select: { id: true, published: true, title: true, url: true },
-          },
+          podcast: { select: { id: true, youtubeChannelId: true } },
+          published: true,
           title: true,
-          youtubeChannelId: true,
+          url: true,
         },
       },
+      user: { select: { id: true } },
     },
-    where: { email: TEST_USER.email },
+    skip: isNil(page) || !isNumber(page) ? 0 : Number(page),
+    take: PODCAST_PAGE_SIZE,
+    where: {
+      seen: { not: { equals: true } },
+      user: { email: TEST_USER.email },
+    },
   });
 
-  if (!isNil(user)) {
-    user.subscriptions.sort((a, b) => {
-      const [latestA] = a.podcastEpisodes;
-      const [latestB] = b.podcastEpisodes;
-
-      if (isNil(latestA) || isNil(latestB)) {
-        return 0;
-      }
-
-      const timestampA = DateTime.fromJSDate(latestA.published).toMillis();
-      const timestampB = DateTime.fromJSDate(latestB.published).toMillis();
-      return timestampB - timestampA;
-    });
-
-    for (const subscription of user.subscriptions) {
-      if (!isNil(subscription.youtubeChannelId)) {
+  if (!isNil(podcasts[0].user)) {
+    for (const item of podcasts) {
+      if (!isNil(item.podcastEpisode.podcast.youtubeChannelId)) {
         populateYouTubePodcast(
-          subscription.youtubeChannelId,
-          subscription.id,
-          user.id,
+          item.podcastEpisode.podcast.youtubeChannelId,
+          item.podcastEpisode.podcast.id,
+          item.user.id,
         ).catch((error: unknown) => {
           logger.error(error);
         });
@@ -65,7 +62,7 @@ export async function GET() {
     }
   }
 
-  return okResponse(user);
+  return okResponse(podcasts);
 }
 
 export async function POST(request: Request) {

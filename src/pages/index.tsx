@@ -44,38 +44,39 @@ export default function Home() {
     <MainLayout>
       <AddPodcast />
       <div className="my-4 grid gap-4">
-        {data?.subscriptions.map(subscription => {
-          return subscription.podcastEpisodes.map(episode => {
-            const url = new URL(episode.url);
+        {data?.map(podcast => {
+          const url = new URL(podcast.podcastEpisode.url);
 
-            let id: string | null = null;
-            if (url.hostname.includes('youtube.com')) {
-              id = url.searchParams.get('v');
-            }
+          let id: string | null = null;
+          if (url.hostname.includes('youtube.com')) {
+            id = url.searchParams.get('v');
+          }
 
-            if (!isNil(id)) {
-              return (
-                <div key={id} className="grid gap-2">
-                  <h2>{episode.title}</h2>
-                  <LiteYouTubeEmbed id={id} title={episode.title} />
-                  <Button
-                    className="w-max justify-self-end"
-                    color="secondary"
-                    size="sm"
-                  >
-                    {get(text, 'markAsSeen', 'Mark as Seen')}
-                  </Button>
-                </div>
-              );
-            }
-
+          if (!isNil(id)) {
             return (
-              <div key={episode.id}>
-                <div>{episode.title}</div>
-                <div>{episode.url}</div>
+              <div key={id} className="grid gap-2">
+                <h2>{podcast.podcastEpisode.title}</h2>
+                <LiteYouTubeEmbed
+                  id={id}
+                  title={podcast.podcastEpisode.title}
+                />
+                <Button
+                  className="w-max justify-self-end"
+                  color="secondary"
+                  size="sm"
+                >
+                  {get(text, 'markAsSeen', 'Mark as Seen')}
+                </Button>
               </div>
             );
-          });
+          }
+
+          return (
+            <div key={podcast.podcastEpisode.id}>
+              <div>{podcast.podcastEpisode.title}</div>
+              <div>{podcast.podcastEpisode.url}</div>
+            </div>
+          );
         })}
       </div>
     </MainLayout>
