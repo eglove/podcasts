@@ -3,8 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 import { api } from '../../../api/api';
-import { podcastsQueryOptions } from '../../../pages';
-import { queryClient } from '../../../pages/_app';
+import { invalidateGetPodcast } from '../../../api/query-options/podcast-options';
 
 type UseMarkAsSeenProperties = {
   onSuccess: () => void;
@@ -28,7 +27,7 @@ export function useMarkAsSeen({
       ? getRequestKeys(updateUserPodcastEpisodeRequest.data)
       : [],
     async onSuccess() {
-      await queryClient.invalidateQueries(podcastsQueryOptions.podcasts);
+      await invalidateGetPodcast();
       onSuccess();
     },
   });

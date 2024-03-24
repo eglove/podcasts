@@ -3,8 +3,7 @@ import { getRequestKeys } from '@ethang/toolbelt/http/request';
 import { useMutation } from '@tanstack/react-query';
 
 import { api } from '../../../api/api';
-import { podcastsQueryOptions } from '../../../pages';
-import { queryClient } from '../../../pages/_app';
+import { invalidateGetPodcast } from '../../../api/query-options/podcast-options';
 import { addPodcastSchema } from '../../../schema/add-podcast';
 import { getResponseError } from '../../../util/http';
 
@@ -21,8 +20,7 @@ export function useAddPodcast() {
       ? getRequestKeys(podcastCreateRequest.data)
       : [],
     async onSuccess(response) {
-      await queryClient.invalidateQueries(podcastsQueryOptions.podcasts);
-
+      await invalidateGetPodcast();
       const message = await getResponseError(response);
       setFormError(message);
     },

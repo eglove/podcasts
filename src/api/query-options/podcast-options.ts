@@ -3,8 +3,18 @@ import { getRequestKeys } from '@ethang/toolbelt/http/request';
 import { isNil } from '@ethang/toolbelt/is/nil';
 import type { QueryOptions } from '@tanstack/react-query';
 
+import { podcastsQueryOptions } from '../../pages';
+import { queryClient } from '../../pages/_app';
 import { getPodcastsResponseSchema } from '../../schema/get-podcasts';
+import { cacheBustRequest } from '../../util/http';
 import { api } from '../api';
+
+export async function invalidateGetPodcast() {
+  await Promise.all([
+    queryClient.invalidateQueries(podcastsQueryOptions.podcasts),
+    cacheBustRequest(api.request.podcastGet()),
+  ]);
+}
 
 export function getPodcastOptions() {
   const requestResult = api.request.podcastGet();

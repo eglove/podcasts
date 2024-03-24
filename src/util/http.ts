@@ -1,3 +1,4 @@
+import { cacheBust } from '@ethang/toolbelt/fetch/cache-bust';
 import { parseFetchJson } from '@ethang/toolbelt/fetch/json';
 import type { HandledError } from '@ethang/toolbelt/types/error';
 import z from 'zod';
@@ -20,5 +21,11 @@ export async function getResponseError(
     }
 
     return response.data.statusText;
+  }
+}
+
+export async function cacheBustRequest(request: HandledError<Request, Error>) {
+  if (request.isSuccess) {
+    await cacheBust(request.data);
   }
 }
