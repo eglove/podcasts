@@ -11,6 +11,7 @@ import { api } from '../api';
 
 export async function invalidateGetPodcast() {
   await Promise.all([
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     queryClient.invalidateQueries(podcastsQueryOptions.podcasts),
     cacheBustRequest(api.request.podcastGet()),
   ]);
