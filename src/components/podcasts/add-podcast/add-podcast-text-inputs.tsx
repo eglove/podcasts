@@ -17,7 +17,7 @@ export function AddPodcastTextInputs({
 }: AddPodcastTextInputsProperties) {
   return (
     <div className="flex gap-4">
-      {['title', 'feedUrl'].map(key => {
+      {['feedUrl'].map(key => {
         const typedKey = key as keyof typeof formState;
 
         return (

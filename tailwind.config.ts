@@ -9,7 +9,7 @@ const config: Config = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   safelist: [
-      'm-4', 'max-w-7xl'
+      'm-4', 'max-w-7xl', 'mx-auto'
   ],
   theme: {},
   darkMode: "class",

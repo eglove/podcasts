@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export function MainLayout({ children }: PropsWithChildren) {
   return (
-    <main className={twMerge(inter.className, 'max-w-7xl m-4')}>
+    <main className={twMerge(inter.className, 'w-full max-w-7xl p-4 mx-auto')}>
       {children}
     </main>
   );

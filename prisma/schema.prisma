@@ -22,7 +22,6 @@ model Podcast {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   feedUrl          String   @unique
-  title            String
   isSerial         Boolean
   youtubeChannelId String?
 

@@ -7,6 +7,7 @@ import {
 } from '../schema/add-podcast';
 import { getPodcastsResponseSchema } from '../schema/get-podcasts';
 import { tResponseSchema } from '../schema/t-request';
+import { updateUserPodcastEpisodeSchema } from '../schema/update-user-podcast-episode';
 
 export const api = new Api({
   baseUrl: 'http://localhost:3000',
@@ -28,6 +29,18 @@ export const api = new Api({
       path: 'api/t',
       responseSchema: tResponseSchema,
       searchParamSchema: z.object({ t: z.array(z.string()) }),
+    },
+    userPodcastEpisodeDelete: {
+      defaultRequestInit: { method: 'DELETE' },
+      path: 'api/user-podcast-episode',
+      responseSchema: z.object({ id: z.string() }),
+      searchParamSchema: z.object({ id: z.string() }),
+    },
+    userPodcastEpisodeUpdate: {
+      defaultRequestInit: { method: 'PUT' },
+      path: 'api/user-podcast-episode',
+      responseSchema: z.object({ id: z.string() }),
+      searchParamSchema: updateUserPodcastEpisodeSchema,
     },
   },
 });

@@ -11,6 +11,16 @@ export function okResponse(data: unknown) {
   );
 }
 
+export function notFoundResponse(message: string) {
+  return Response.json(
+    { error: message },
+    {
+      headers: { 'Content-Type': 'application/json' },
+      status: HTTP_STATUS.NOT_FOUND,
+    },
+  );
+}
+
 export function badRequestResponse(error: Error | ZodError) {
   return Response.json(
     { error },
